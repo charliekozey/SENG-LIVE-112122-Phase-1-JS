@@ -73,25 +73,78 @@ const inventory = [
 - blurb(book)
 */
 
+
+function helloWorld() {
+  console.log('hi there')
+  return "Hello, world!" 
+}
+
+console.log(helloWorld());
+
+function formatPrice(price) {
+  // return '$' + Number.parseFloat(price).toFixed(2); // concatenation
+  return `$${Number.parseFloat(price).toFixed(2)}` // interpolation
+}
+
+const book = inventory[0];
+
+console.log(formatPrice(book.price))
+log(formatPrice, book.price);
+
 // 💡 Arrow functions vs regular functions
 
 // ✅ create an arrow function version of the formatPrice function
 
-
+// const formatPrice = (price) => `$${Number.parseFloat(price).toFixed(2)}`
 
 // ✅ create a blurb() function that accepts a book as an argument and logs a message in the following format:
 // 'Eloquent JavaScript: A Modern Introduction to Programming by Marjin Haverbeke is on sale for $10.00'
 
+const title = "Testing the Title constant in global scope";
 
+function blurb(book) {
+  const title = book.title;
+  const author = book.author;
+  const price = formatPrice(book.price);
+  if (true) {
+    const blockVar = "secret"; // let and const are both block scoped
+  }
+  // console.log(blockVar);
+  return `${title} by ${author} is on sale for ${price}`
+}
+
+blurb(inventory[0]);
+
+console.log(title);
 
 // 💡 Difference between Block scope, Function scope, and Global scope
 
 // ✅ create a variable `highestPricedBook`
 
+const highestPricedBook = findHighestPricedBook(inventory);
+
 
 
 // ✅ create a function `findHighestPricedBook` that finds that book and returns it
+function findHighestPricedBook(inventory) {
+  let highestPrice = 0;
+  let highestPricedBook;
+  // for (let i = 0; i < inventory.length; i++) {
+  //   if (inventory[i].price > highestPrice) {
+  //     console.log('condition met')
+  //     highestPricedBook = inventory[i];
+  //     highestPrice = inventory[i].price;
+  //   }
+  // }
+  inventory.forEach(book => {
+    if (book.price > highestPrice) {
+      highestPricedBook = book;
+      highestPrice = book.price;
+    }
+  })
+  return highestPricedBook;
 
+}
 
 
 // After Break
@@ -102,18 +155,78 @@ const inventory = [
 
 // 💡 Practice using callbacks for iteration
 
+inventory.forEach(book => blurb(book));
+inventory.forEach(function(book) { blurb(book) })
 
 
 // ✅ Create an array of the prices of all of the books
 
+function getPrices(books) {
+  return books.map(book => formatPrice(book));
+}
 
+const prices = getPrices(inventory);
 
 // ✅ Create an array of simplified book objects
 
-
+const simplifiedBooks = inventory.map(book => {
+  return {
+    title: book.title,
+    author: book.author,
+    price: formatPrice(book.price)
+  }
+})
 
 // ✅ Create an array of strings from the inventory in the following format:
 // 'Eloquent JavaScript: A Modern Introduction to Programming by Marjin Haverbeke is on sale for $10.00'
 
+const blurbs = inventory.map(blurb);
 
 // 💡 When do I use forEach vs map?
+
+// if we need to make a new array, use map, 
+// if we just need to do something for each element, use forEach
+
+
+
+// our own foreach
+
+// higher order function because it accepts a callback as an argument
+function myForEach(array, callback) {
+  for (let i = 0; i < array.length; i++) {
+    callback(array[i], i);
+  }
+}
+
+myForEach(inventory, function (book, index) {
+  console.log(blurb(book));
+})
+
+// higher order function because it accepts a callback as an argument
+function myMap(array, callback) {
+  let newArray = [];
+  for (let i = 0; i < array.length; i++) {
+    newArray.push(callback(array[i], i));
+  }
+  return newArray;
+}
+
+const myMappedArray = myMap(inventory, function (book, index) {
+  return formatPrice(book.price);
+})
+
+console.log(myMappedArray);
+
+// dealing a hand with foreach (not map because we don't care about return value)
+const deck = [] // actually has 52 shuffled cards in it
+const players = [{hand: []}, {hand: []}, {hand: []}]
+for (let i = 0; i < 5; i++) {
+  players.forEach(player => {
+    player.hand.push(deck.pop());
+  })
+}
+
+function log(fn, arg) {
+  let functionName = fn.name;
+  console.log(`${functionName}(${arg}) returns: ${fn(arg)}`)
+}
