@@ -30,19 +30,33 @@
           <form id="book-form" class="collapsed">
           
             <label for="form-title">Title:</label>
-            <input type="text" id="form-title" name="title">
+            <input type="text" id="form-title" name="title" value="JS the good parts" />
   
             <label for="form-author">Author:</label>
-            <input type="text" id="form-author" name="author">
+            <input type="text" id="form-author" name="author" value="Douglas Crockford" />
           
             <label for="form-price">Price:</label>
-            <input type="number" id="form-price" name="price">
+            <input type="text" id="form-price" name="price" value="34" />
           
             <label for="form-imageUrl">Image url:</label>
-            <input type="text" id="form-imageUrl" name="imageUrl">
+            <input type="text" id="form-imageUrl" name="imageUrl" value="https://images-na.ssl-images-amazon.com/images/I/5131OWtQRaL._SX218_BO1,204,203,200_QL40_FMwebp_.jpg" />
           
             <label for="form-inventory">Inventory:</label>
-            <input type="text" id="form-inventory" name="inventory">
+            <input type="number" id="form-inventory" name="inventory" value="2" />
+          
+            <label for="form-language">Language</label>
+            <select name="language" id="form-language">
+              <option value="">Select a language</option>
+              <option value="1">JavaScript</option>
+              <option value="2">Ruby</option>
+              <option value="3">Python</option>
+              <option value="4">CSS</option>
+              <option value="5">Node.js</option>
+            </select>
+
+            <!-- <input type="datetime-local" />
+            <input type="color" />
+            <input type="time" /> -->
 
             <input type="submit" value="ADD BOOK"/>
           </form>

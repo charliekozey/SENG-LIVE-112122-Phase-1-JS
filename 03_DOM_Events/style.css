@@ -95,6 +95,10 @@ input {
   margin: 3px;
 }
 
+[type=submit], button {
+  cursor: pointer;
+}
+
 input[type=submit]{
   border: none;
   background-color: #2e824d;
