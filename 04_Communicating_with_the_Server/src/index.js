@@ -61,6 +61,23 @@ function renderBook(book) {
   document.querySelector('#book-list').append(li);
 }
 
+function renderError(error) {
+  const main = document.querySelector('main');
+  const errorDiv = document.createElement('div');
+  errorDiv.className = 'error';
+  if (error.message === "Failed to fetch") {
+    errorDiv.textContent = "Whoops! Looks like you forgot to start your JSON-server!"
+  } else {
+    errorDiv.textContent = error;
+  }
+  main.prepend(errorDiv);
+  window.addEventListener('keydown', (e) => {
+    if (e.key === "Escape") {
+      errorDiv.remove();
+    }
+  })
+}
+
 function formatPrice(price) {
   let formattedPrice = Number(price).toFixed(2);
   return `$${formattedPrice}`;
@@ -132,9 +149,28 @@ newBookForm.addEventListener('submit', (e) => {
 // call render functions to populate the DOM
 ////////////////////////////////////////////
 
-renderHeader(bookStore)
-renderFooter(bookStore)
-bookStore.inventory.forEach(renderBook)
-document.querySelector('#book-form').addEventListener('submit', handleForm)
+// bookStore.inventory.forEach(renderBook)
 
+fetch('http://localhost:3000/stores/1')
+  .then(response => {
+    // debugger
+    if (response.ok) {
+      return response.json()
+    } else {
+      throw (response.statusText);
+    }
+  })
+  .then(bookStore => {
+    console.log('then is happening anyway')
+    console.log(bookStore);
+    renderHeader(bookStore)
+    renderFooter(bookStore)
+  })
+  .catch(err => {
+    console.log('whoops! Something went wrong')
+    renderError(err);
+  })
 
+fetch('http://localhost:3000/books')
+  .then(response => response.json())
+  .then(books => books.forEach(renderBook))

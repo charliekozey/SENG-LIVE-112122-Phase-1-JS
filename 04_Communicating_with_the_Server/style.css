@@ -131,3 +131,9 @@ footer {
   width: 100%;
   margin: 3px;
 }
+
+.error {
+  text-align: center;
+  background-color: lightcoral;
+  padding: 20px;
+}
