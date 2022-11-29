@@ -178,14 +178,82 @@ bookForm.addEventListener('submit', (e) => {
     imageUrl: e.target.imageUrl.value
   }
   // pass the info as an argument to renderBook for display!
-  renderBook(book);
+
+  // // optimistic version
+  // renderBook(book);
+  // // 1. Add the ability to perist the book to the database when the form is submitted. When this works, we should still see the book that is added to the DOM on submission when we refresh the page.
+  // fetch("http://localhost:3000/books", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json"
+  //   },
+  //   body: JSON.stringify(book)
+  // })
+
+  // pessimistic version
+  
   // 1. Add the ability to perist the book to the database when the form is submitted. When this works, we should still see the book that is added to the DOM on submission when we refresh the page.
+  // fetch("http://localhost:3000/books", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json"
+  //   },
+  //   body: JSON.stringify(book)
+  // })
+  //   .then(res => res.json())
+  //   .then(renderBook)
+  
+  // postJSON version
+  postJSON("http://localhost:3000/books", book)
+    .then(renderBook)
+    .catch(renderError)
+
 
   e.target.reset();
 })
 
 // 2. Hook up the new Store form so it that it works to add a new store to our database and also to the DOM (as an option within the select tag)
+const storeForm = document.querySelector('#store-form');
 
+storeForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+
+  // use pessimistic rendering because we need the database assigned ID
+  // for our DOM update function to work properly
+  const store = {
+    location: e.target.location.value,
+    address: e.target.address.value,
+    number: e.target.number.value,
+    name: e.target.name.value,
+    hours: e.target.hours.value
+  }
+  // using fetch
+  // fetch("http://localhost:3000/stores", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json"
+  //   }, 
+  //   body: JSON.stringify(store)
+  // })
+  //   .then(res => res.json())
+  //   .then(store => {
+  //     addSelectOptionForStore(store); // update DOM after server update
+  //   })
+
+
+  // using postJSON
+  postJSON("http://localhost:3000/stores", {
+    location: e.target.location.value,
+    address: e.target.address.value,
+    number: e.target.number.value,
+    name: e.target.name.value,
+    hours: e.target.hours.value
+  })
+    .then(addSelectOptionForStore)
+    .catch(renderError)
+  e.target.reset();
+})
 
 // Invoking functions    
 // fetching our data!

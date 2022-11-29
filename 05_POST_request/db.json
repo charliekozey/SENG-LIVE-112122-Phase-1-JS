@@ -135,6 +135,15 @@
       ],
       "inventory": 20,
       "imageUrl": "https://images-na.ssl-images-amazon.com/images/I/41oYsXjLvZL._SY344_BO1,204,203,200_.jpg"
+    },
+    {
+      "title": "JS: The Good Parts",
+      "author": "Douglas Crockford",
+      "price": 34,
+      "reviews": [],
+      "inventory": 2,
+      "imageUrl": "https://images-na.ssl-images-amazon.com/images/I/5131OWtQRaL._SX218_BO1,204,203,200_QL40_FMwebp_.jpg",
+      "id": 8
     }
   ]
 }
