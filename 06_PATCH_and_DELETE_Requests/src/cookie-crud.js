@@ -16,6 +16,7 @@ function renderCookie(cookie) {
     cookieDeliciousness.textContent = `Deliciousness: ${cookie.deliciousness}/5`
     cookieImage.src = cookie.image_url
     cookieCard.id = "cookie-card"
+    deleteBtn.textContent = "EAT"
 
     deleteBtn.addEventListener("click", () => deleteCookie(cookie, cookieCard))
 
@@ -24,7 +25,7 @@ function renderCookie(cookie) {
 }
 
 function deleteCookie(cookie, cookieCard) {
-    fetch("http://localhost:3000/cookies", {
+    fetch(`http://localhost:3000/cookies/${cookie.id}`, {
         method: "DELETE"
     })
         .then(cookieCard.remove())
