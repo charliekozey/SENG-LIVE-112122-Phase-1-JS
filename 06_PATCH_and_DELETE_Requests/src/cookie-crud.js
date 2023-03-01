@@ -18,11 +18,23 @@ function renderCookie(cookie) {
     
     const cookieImage = document.createElement("img")
     cookieImage.src = cookie.image_url
-    
+
+    const decrementBtn = document.createElement("button")
+    decrementBtn.textContent = cookie.quantity > 0 ? "EAT ONE" : "none left :\("
+    decrementBtn.addEventListener("click", () => {
+        let newQuantity = --cookie.quantity
+        if (newQuantity <= 0) {
+            newQuantity = 0
+            decrementBtn.textContent = "none left :\("
+        }
+        cookieQuantity.textContent = `Cookies in stash: ${newQuantity}`
+        updateQuantity(cookie, newQuantity)
+    })
+
     const deleteBtn = document.createElement("button")
     deleteBtn.textContent = "EAT ALL"
     deleteBtn.addEventListener("click", () => deleteCookie(cookie, cookieCard))
-    
+
     const favoriteBtn = document.createElement("button")
     let favoriteToggle = cookie.isFavorite
     favoriteBtn.textContent = cookie.isFavorite ? "★" : "☆"
@@ -32,7 +44,7 @@ function renderCookie(cookie) {
         updateFavorite(cookie, favoriteToggle)
     })
 
-    cookieCard.append(cookieName, cookieQuantity, cookieImage, deleteBtn, favoriteBtn)
+    cookieCard.append(cookieName, cookieQuantity, cookieImage, decrementBtn, deleteBtn, favoriteBtn)
     cookieMenu.append(cookieCard)
 }   
 
@@ -51,6 +63,18 @@ function updateFavorite(cookie, favoriteToggle) {
         },
         body: JSON.stringify({"isFavorite": favoriteToggle})
     })
+}
+
+function updateQuantity(cookie, newQuantity) {
+    fetch(`http://localhost:3000/cookies/${cookie.id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({"quantity": newQuantity})
+    })
+        .then(res => res.json())
+        .then(cookie => console.log(cookie))
 }
 
 fetchCookies()
