@@ -77,4 +77,33 @@ function updateQuantity(cookie, newQuantity) {
         .then(cookie => console.log(cookie))
 }
 
+function addFormListener() {
+    const cookieForm = document.getElementById("new-cookie-form")
+
+    cookieForm.addEventListener("submit", (e) => {
+        e.preventDefault()
+
+        const newCookie = {
+            "name": e.target.name.value,
+            "image_url":  e.target.image.value,
+            "quantity":  parseInt(e.target.quantity.value),
+            "isFavorite": false
+        }
+        console.log(e.target.name.value)
+
+        fetch("http://localhost:3000/cookies", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newCookie)
+        })
+            .then(res => res.json())
+            .then(cookie => renderCookie(cookie))
+
+        e.target.reset()
+    })
+}
+
 fetchCookies()
+addFormListener()
